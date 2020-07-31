@@ -1,39 +1,26 @@
-import React, { useReducer, useEffect } from 'react'
-import { ReactQueryDevtools } from 'react-query-devtools'
-import {Container, Button} from 'react-bootstrap';
-import reducer from './../reducers/Jobs';
-import { getJobsAction } from './../actions/Jobs';
-import store from '../store';
-import { feachJobsGitHub } from './../feachData/JobsGitHub';
-import {useQuery}from 'react-query'
-import { ReactQueryConfigProvider } from 'react-query'
- 
- const queryConfig = {
-   queries: {
-     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-   },
- }
+import React, { useState } from 'react'
+import useFetchData  from '../feachData/JobsGitHub'
+import { Job } from './Job';
+import {Container, Row, Col} from 'react-bootstrap'
+import JobsPagination from './JobsPagination';
 
-const Jobs = () => {
-    // getJobsAction();
-    const {isLoading, isError, data, error, status} = useQuery('jobs', feachJobsGitHub);
-    //  const [state, dispatch] = useReducer(reducer, {jobs:[], loading:true});
-
-    store.dispatch(getJobsAction(isLoading, isError, data, error))
-    // console.log(isLoading, isError);
-    // const {isLoading, isError, data, status, error} = useQuery('jobs', feachJobsGitHub);
-    //   useEffect(() => {
-    //        store.dispatch(getJobsAction(),[]);
-    //      }, []);
-       // console.log('isLoading :>> ', isLoading);
-       // console.log('isError :>> ', isError);
-       return (
-           <ReactQueryConfigProvider config={queryConfig}>   
-           <div>    
-        {status} Test
-        </div>
-            <ReactQueryDevtools initialIsOpen />
-        </ReactQueryConfigProvider>
+const Jobs = () => { 
+    const [page, setPage] = useState(1)
+    const [params, setParams] = useState()
+    const { jobs, loading, error } = useFetchData(page, params);    
+       return (          
+           <Container>  
+               <JobsPagination page={page} setPage={setPage}/>    
+                <Row>                    
+                    {loading&&(<div>Loading</div>)}
+                    {error&&(<div>Error</div>)}
+                    {jobs.map(job=>{
+                        return <Col key={job.id} lg={4} md={6} xs={12}> <Job  key={job.id} job={job} /> </Col>
+       })
+       }
+                   
+                </Row>
+        </Container> 
     )
 }
 

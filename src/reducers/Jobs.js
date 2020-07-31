@@ -1,6 +1,12 @@
 import {ACTIONS_JOB} from '../types/Jobs';
 
-const initialState = [];
+const initialState = [
+    {
+        jobs:[{}],
+        loading:false,
+        error:false
+    }
+];
 
 export default function reducer(state= initialState, action){
    const {type, payload} = action;
@@ -13,7 +19,7 @@ export default function reducer(state= initialState, action){
            return{...state, loading: false, jobs: payload, error:false } // payload. jobs ??
 
         case ACTIONS_JOB.ERROR:            
-            return{...state, loading: false, jobs:[], error:payload.error}
+            return{...state, loading: false, jobs:[], error:payload}
         
             default:
             return state
