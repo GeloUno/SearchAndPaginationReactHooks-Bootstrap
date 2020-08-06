@@ -10,6 +10,7 @@ import axios from 'axios'
 // import { useQuery } from 'react-query';
 
 const BASE_URL = 'http://cors-anywhere.herokuapp.com/http://jobs.github.com/positions.json';
+// const BASE_URL = 'http://jobs.github.com/positions.json';
 
 //  const BASE_URL = 'https://swapi.dev/api/';
 
@@ -52,9 +53,26 @@ const BASE_URL = 'http://cors-anywhere.herokuapp.com/http://jobs.github.com/posi
             {
                 type: ACTIONS_JOB.MAKE_REQUEST
             }            )
-        axios.get(BASE_URL, { params: {page:page, ...params}})
+        axios.get(BASE_URL, {
+           
+            // headers: {
+            //     'Referrer-Policy': 'no-referrer',
+            //     'Host': 'jobs.github.com',
+            // 'Host': 'http://localhost:3000/',
+            //     'Origin': 'localhost:3000/',
+            //     'Access-Control-Allow-Origin':'localhost:3000/'
+                // 'Referrer-Policy': 'strict-origin-when-cross-origin',
+                // 'Origin': 'https://jobs.github.com',
+                // 'Access-Control-Request-Method': 'GET',
+// 'Access-Control-Request-Headers': 'X-PINGOTHER, Content-Type',
+//                 // 'X-Permitted-Cross-Domain-Policies':'http://jobs.github.com/',
+//                 // 'X-Permitted-Cross-Domain-Policies':'http://localhost:3000/',
+//                 'Cross-Origin-Resource-Policy': 'https://jobs.github.com/',
+            // },
+            params: { page: page, ...params }
+        })
         .then(res=>{
-            // console.log('res :>> ', res.data);
+             console.log('res :>> ', res);
             dispatch({
                 type: ACTIONS_JOB.GET_DATA,
                 payload:  res.data

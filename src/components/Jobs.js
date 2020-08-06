@@ -6,16 +6,15 @@ import JobsPagination from './JobsPagination';
 import SearchForms from './searchForms';
 
 const Jobs = () => { 
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(1)    
     const [params, setParams] = useState(
         {
             location: '',
             description:''
         }
     )
-    const { jobs, loading, error } = useFetchData(page, params);    
-
-
+    const { jobs, loading, error, jobsLength } = useFetchData(page, params);    
+   
     const onHandleSearchChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -27,20 +26,24 @@ const Jobs = () => {
     }
 
        return (          
-           <Container>  
+           <Container>
                <SearchForms
-                onHandleSearchChange={onHandleSearchChange}
+                   onHandleSearchChange={onHandleSearchChange}
                    params={params}
-               />
-               <JobsPagination page={page} setPage={setPage}
-                  
+                   />
+                   <JobsPagination
+                   page={page}
+                   setPage={setPage}
+                   pagesLength={jobsLength}                  
                />    
                 <Row>                    
                     {loading&&(<div>Loading</div>)}
-                    {error&&(<div>Error</div>)}
-                    {jobs.map(job=>{
+                    {error && (<div>Error</div>)}
+                   
+                   {jobs.map(job => {
+                       
                         return <Col key={job.id} lg={4} md={6} xs={12}> <Job  key={job.id} job={job} /> </Col>
-       })
+                      })
        }
                    
                 </Row>

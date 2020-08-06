@@ -19,7 +19,9 @@ export const Job = ({ job }) => {
          escapeHtml={false}     
         />
        </div>       
-        {console.log('job', job)} 
+        {
+          //console.log('job', job)
+        } 
         <div className="mb-2">
           <Button variant="primary" onClick={() => setMoreInfoShow(prevMoreInfo => !prevMoreInfo)}>{(moreInfoShow) ?'Hidden':'More'}</Button>         
         </div>
